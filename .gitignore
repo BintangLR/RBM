@@ -1,0 +1,5 @@
+# Media and other binary assets are managed outside GitHub.
+/assets/
+
+# Local source image collection, if present in this project.
+/Foto/

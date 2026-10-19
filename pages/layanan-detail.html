@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Layanan RBM Toraja</title>
+  <meta name="description" id="page-desc" content="Layanan RBM Toraja untuk penyandang disabilitas.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div id="site-header"></div>
+  <main id="page-main" class="inline-style-019">
+    <!-- Injected by JS -->
+  </main>
+
+  <script src="../data/rbm-data.js"></script>
+  <div id="site-footer"></div>
+
+  <script src="../js/components.js"></script>
+  <script src="../script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const params = new URLSearchParams(window.location.search);
+      const serviceId = params.get('id');
+      const main = document.getElementById('page-main');
+      const imagePaths = {
+        rbm01: '../assets/images/foto/10.JPG',
+        rbm02: '../assets/images/foto/3.png',
+        rbm03: '../assets/images/foto/2.png',
+        rbm04: '../assets/images/foto/5.png',
+        rbm05: '../assets/images/foto/15.png',
+        foto1: '../assets/images/foto/1.JPG',
+        foto2: '../assets/images/foto/2.png',
+        foto3: '../assets/images/foto/3.png',
+        foto4: '../assets/images/foto/4.png',
+        foto5: '../assets/images/foto/5.png',
+        foto6: '../assets/images/foto/6.png',
+        foto8: '../assets/images/foto/8.png',
+        foto9: '../assets/images/foto/9.JPG',
+        foto10: '../assets/images/foto/10.JPG',
+        foto11: '../assets/images/foto/11.png',
+        foto12: '../assets/images/foto/12.png',
+        foto13: '../assets/images/foto/13.png',
+        foto14: '../assets/images/foto/14.png',
+        foto15: '../assets/images/foto/15.png',
+        gambarBeranda4: '../assets/images/gambar beranda 4.png',
+        kontak1: '../assets/images/kontak1.JPG',
+        tentang1: '../assets/images/tentang1.JPG',
+        tentang2: '../assets/images/tentang2.png',
+      };
+
+      if (!serviceId || !RBM || !RBM.services) {
+        main.innerHTML = '<div class="container section"><p>Layanan tidak ditemukan.</p></div>';
+        main.style.visibility = 'visible';
+        return;
+      }
+
+      const service = RBM.services.find(s => s.id === serviceId);
+      if (!service) {
+        main.innerHTML = '<div class="container section"><p>Layanan tidak ditemukan. <a href="layanan.html">Kembali ke daftar layanan</a>.</p></div>';
+        main.style.visibility = 'visible';
+        return;
+      }
+
+      function renderContent() {
+        const lang = (window.RBM_getLang ? window.RBM_getLang() : (localStorage.getItem('rbm-language') || 'id'));
+        const isEN = lang === 'en';
+
+        const title = (isEN && service.titleEN) ? service.titleEN : service.title;
+        const desc = (isEN && service.descriptionEN) ? service.descriptionEN : service.description;
+        const overview = (isEN && service.overviewEN) ? service.overviewEN : service.overview;
+        const tujuan = (isEN && service.details && service.details.tujuanEN) ? service.details.tujuanEN : service.details.tujuan;
+        const sasaran = (isEN && service.details && service.details.sasaranEN) ? service.details.sasaranEN : service.details.sasaran;
+        const kegiatan = (isEN && service.details && service.details.kegiatanEN) ? service.details.kegiatanEN : service.details.kegiatan;
+        const galleryTitle = (isEN && service.galleryTitleEN) ? service.galleryTitleEN : service.galleryTitle;
+        const galleryDescription = (isEN && service.galleryDescriptionEN) ? service.galleryDescriptionEN : service.galleryDescription;
+
+        document.getElementById('page-title').textContent = title + ' | RBM Toraja';
+        document.getElementById('page-desc').setAttribute('content', desc);
+
+        const others = RBM.services.filter(s => s.id !== serviceId);
+        const relatedLinks = others.map(s => `
+          <a href="layanan-detail.html?id=${s.id}" class="related-service-link">
+            <span>${(isEN && s.titleEN) ? s.titleEN : s.title}</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        `).join('');
+
+        const imgSrc = imagePaths[service.image] || imagePaths.rbm01;
+        const galleryItems = (service.gallery || []).map((photo, index) => {
+          const alt = (isEN && photo.altEN) ? photo.altEN : photo.alt;
+          const src = imagePaths[photo.image] || imgSrc;
+          return `
+            <button class="service-gallery__item${index === 0 ? ' service-gallery__item--featured' : ''}"
+              type="button" data-gallery-src="${src}" data-gallery-alt="${alt}"
+              aria-label="${isEN ? 'Enlarge photo: ' : 'Perbesar foto: '}${alt}">
+              <img src="${src}" alt="${alt}" loading="lazy" decoding="async">
+              <span class="service-gallery__zoom" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4M11 8v6M8 11h6"/></svg>
+              </span>
+            </button>
+          `;
+        }).join('');
+
+        main.innerHTML = `
+          <section class="service-detail section">
+            <div class="container">
+              <nav class="breadcrumb" aria-label="Navigasi halaman">
+                <a href="../index.html">${isEN ? 'Home' : 'Beranda'}</a>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+                <a href="layanan.html">${isEN ? 'Services' : 'Layanan'}</a>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+                ${title}
+              </nav>
+
+              <div class="service-detail-layout">
+                <div class="service-detail-main">
+                  <div class="service-detail-hero">
+                    <div class="service-detail-intro">
+                      <p class="eyebrow">${isEN ? 'RBM TORAJA SERVICE' : 'LAYANAN RBM TORAJA'}</p>
+                      <h1>${title}</h1>
+                      <p class="service-detail-lead">${overview}</p>
+                      <div class="service-detail-actions">
+                        <a href="donasi.html" class="btn btn-primary">
+                          ${isEN ? 'Support Program' : 'Dukung Program'}
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        </a>
+                        <a href="kontak.html" class="btn btn-outline">
+                          ${isEN ? 'Contact Us' : 'Hubungi Kami'}
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </a>
+                      </div>
+                    </div>
+                    <figure class="service-detail-photo">
+                      <img src="${imgSrc}" alt="${isEN ? 'RBM Toraja service: ' : 'Layanan RBM Toraja: '}${title}"
+                        fetchpriority="high" class="inline-style-089">
+                    </figure>
+                  </div>
+
+                  <section class="service-info-grid" aria-label="${isEN ? 'Service information' : 'Informasi layanan'}">
+                    <article class="service-info-card">
+                      <span class="service-info-card__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 4.5 7v5c0 4.5 3.2 7.4 7.5 9 4.3-1.6 7.5-4.5 7.5-9V7L12 3Z"/><path d="m9 12 2 2 4-4"/></svg>
+                      </span>
+                      <h2>${isEN ? 'Service Objectives' : 'Tujuan Layanan'}</h2>
+                      <p>${tujuan}</p>
+                    </article>
+                    <article class="service-info-card">
+                      <span class="service-info-card__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20v-1a6.5 6.5 0 0 1 13 0v1ZM16 5a3.5 3.5 0 0 1 0 6.8M18 14a5.5 5.5 0 0 1 3.5 5v1"/></svg>
+                      </span>
+                      <h2>${isEN ? 'Target Audience' : 'Sasaran'}</h2>
+                      <p>${sasaran}</p>
+                    </article>
+                    <article class="service-info-card">
+                      <span class="service-info-card__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/><path d="M8 7h8M8 11h8"/></svg>
+                      </span>
+                      <h2>${isEN ? 'Activities' : 'Kegiatan yang Dilaksanakan'}</h2>
+                      <p>${kegiatan}</p>
+                    </article>
+                  </section>
+                </div>
+
+                <aside class="service-detail-aside">
+                  <div class="aside-card">
+                    <span class="aside-card__eyebrow">${isEN ? 'OVERVIEW' : 'RINGKASAN'}</span>
+                    <h2>${isEN ? 'Service Details' : 'Detail Layanan'}</h2>
+                    <div class="aside-detail-item">
+                      <strong>${isEN ? 'Category' : 'Kategori'}</strong>
+                      <p>${isEN ? 'RBM Service' : 'Layanan RBM'}</p>
+                    </div>
+                    <div class="aside-detail-item">
+                      <strong>${isEN ? 'Target' : 'Sasaran'}</strong>
+                      <p>${sasaran}</p>
+                    </div>
+                    <div class="aside-detail-item">
+                      <strong>${isEN ? 'Area' : 'Wilayah'}</strong>
+                      <p>${isEN ? 'Tana Toraja & North Toraja' : 'Tana Toraja & Toraja Utara'}</p>
+                    </div>
+                  </div>
+
+                  <div class="aside-card">
+                    <span class="aside-card__eyebrow">${isEN ? 'EXPLORE' : 'JELAJAHI'}</span>
+                    <h2>${isEN ? 'Other Services' : 'Layanan Lainnya'}</h2>
+                    <div class="related-services-list">
+                      ${relatedLinks}
+                    </div>
+                  </div>
+
+                  <a href="layanan.html" class="btn btn-outline service-aside-action">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    ${isEN ? 'All Services' : 'Semua Layanan'}
+                  </a>
+                  <a href="donasi.html" class="btn btn-primary service-aside-action">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    ${isEN ? 'Support RBM' : 'Dukung RBM'}
+                  </a>
+                </aside>
+              </div>
+
+              <section class="service-contact-cta" aria-labelledby="service-contact-title">
+                <div class="service-contact-cta__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5Z"/><path d="M8 12h8M8 9h5"/></svg>
+                </div>
+                <div class="service-contact-cta__copy">
+                  <p class="eyebrow">${isEN ? 'WE ARE HERE TO HELP' : 'KAMI SIAP MEMBANTU'}</p>
+                  <h2 id="service-contact-title">${isEN ? `Let’s talk about ${title}` : `Mari berdiskusi tentang ${title}`}</h2>
+                  <p>${isEN ? 'Contact our team for information about this service and how to get involved.' : 'Hubungi tim RBM Toraja untuk mendapatkan informasi tentang layanan ini dan cara berpartisipasi.'}</p>
+                </div>
+                <a href="kontak.html" class="btn btn-primary">
+                  ${isEN ? 'Contact Us' : 'Hubungi Kami'}
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+              </section>
+
+              <section class="service-gallery" aria-labelledby="service-gallery-title">
+                <div class="service-gallery__heading">
+                  <div>
+                    <p class="eyebrow">${isEN ? 'ACTIVITY GALLERY' : 'GALERI KEGIATAN'}</p>
+                    <h2 id="service-gallery-title">${galleryTitle || (isEN ? `${title} Activity Documentation` : `Dokumentasi Kegiatan ${title}`)}</h2>
+                    <p>${galleryDescription || (isEN ? `Moments from the ${title} program at RBM Toraja.` : `Momen kegiatan dalam program ${title} di RBM Toraja.`)}</p>
+                  </div>
+                </div>
+                <div class="service-gallery__grid">
+                  ${galleryItems}
+                </div>
+                <dialog class="service-lightbox" aria-label="${isEN ? 'Enlarged activity photo' : 'Foto kegiatan ukuran besar'}">
+                  <button class="service-lightbox__close" type="button" aria-label="${isEN ? 'Close photo' : 'Tutup foto'}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 6-12 12M6 6l12 12"/></svg>
+                  </button>
+                  <img class="service-lightbox__image" alt="">
+                  <p class="service-lightbox__caption"></p>
+                </dialog>
+              </section>
+            </div>
+          </section>
+        `;
+
+        const lightbox = main.querySelector('.service-lightbox');
+        const lightboxImage = lightbox.querySelector('.service-lightbox__image');
+        const lightboxCaption = lightbox.querySelector('.service-lightbox__caption');
+        main.querySelectorAll('.service-gallery__item').forEach(item => {
+          item.addEventListener('click', () => {
+            lightboxImage.src = item.dataset.gallerySrc;
+            lightboxImage.alt = item.dataset.galleryAlt;
+            lightboxCaption.textContent = item.dataset.galleryAlt;
+            lightbox.showModal();
+          });
+        });
+        lightbox.querySelector('.service-lightbox__close').addEventListener('click', () => lightbox.close());
+        lightbox.addEventListener('keydown', event => {
+          if (event.key === 'Escape') {
+            event.preventDefault();
+            lightbox.close();
+          }
+        });
+        lightbox.addEventListener('click', event => {
+          if (event.target === lightbox) lightbox.close();
+        });
+
+        main.style.visibility = 'visible';
+      }
+
+      renderContent();
+      window.addEventListener('rbm:languagechange', renderContent);
+    });
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cerita RBM Toraja</title>
+  <meta name="robots" content="noindex">
+</head>
+<body>
+  <main>
+    <p>Artikel sedang dibuka. Jika halaman tidak berpindah, <a id="legacy-story-link" href="cerita.html">kembali ke daftar Cerita</a>.</p>
+  </main>
+  <script src="../data/rbm-data.js"></script>
+  <script>
+    const storyId = new URLSearchParams(window.location.search).get('id');
+    const story = typeof RBM !== 'undefined' && Array.isArray(RBM.stories)
+      ? RBM.stories.find(item => item.id === storyId)
+      : null;
+    if (story && story.detailPage) {
+      window.location.replace(story.detailPage);
+    } else {
+      document.querySelector('main p').textContent = 'Cerita tidak ditemukan. ';
+    }
+  </script>
+</body>
+</html>

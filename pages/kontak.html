@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kontak RBM Toraja | Hubungi Kami</title>
+  <meta name="description" content="Kami selalu terbuka untuk berdiskusi, bekerja sama, atau menjawab pertanyaan Anda tentang RBM Toraja.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <main>
+    <!-- HERO -->
+    <div class="page-hero">
+      <div class="page-hero__bg inline-style-067"></div>
+      <div class="page-hero__overlay"></div>
+      <div class="container page-hero__content">
+        <p class="eyebrow">Hubungi Kami</p>
+        <h1>Kontak RBM Toraja</h1>
+        <p>Kami selalu terbuka untuk berdiskusi, bekerja sama, atau menjawab pertanyaan Anda.</p>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <section class="section">
+      <div class="container">
+        <nav class="breadcrumb"><a href="../index.html">Beranda</a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>Kontak</nav>
+
+        <div class="kontak-layout">
+          <!-- FORM SIDE (LEFT) -->
+          <div class="contact-form-wrap fade-in">
+            <h2>Kirim Pesan untuk RBM</h2>
+            <p>Isi formulir di bawah ini dan kami akan merespons sesegera mungkin.</p>
+
+            <form action="/api/contact" method="post" id="contact-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="nama">Nama Lengkap <span aria-hidden="true" class="inline-style-068">*</span></label>
+                  <input type="text" id="nama" name="nama" class="form-control" placeholder="Nama Anda" required maxlength="120" autocomplete="name">
+                </div>
+                <div class="form-group">
+                  <label for="email">Email <span aria-hidden="true" class="inline-style-068">*</span></label>
+                  <input type="email" id="email" name="email" class="form-control" placeholder="email@contoh.com" required maxlength="254" autocomplete="email">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="subjek">Subjek <span aria-hidden="true" class="inline-style-068">*</span></label>
+                <input type="text" id="subjek" name="subjek" class="form-control" placeholder="Subjek pesan Anda" required maxlength="160">
+              </div>
+              <div class="form-group">
+                <label for="whatsapp">Nomor WhatsApp</label>
+                <input type="tel" id="whatsapp" name="whatsapp" class="form-control" placeholder="+62 xxx xxxx xxxx" maxlength="40" autocomplete="tel">
+              </div>
+              <div class="form-group">
+                <label for="keperluan">Keperluan <span aria-hidden="true" class="inline-style-068">*</span></label>
+                <select id="keperluan" name="keperluan" class="form-control" required>
+                  <option value="" disabled selected>Pilih keperluan Anda</option>
+                  <option value="pertanyaan">Ajukan Pertanyaan</option>
+                  <option value="informasi-layanan">Informasi Layanan</option>
+                  <option value="donasi">Informasi Donasi</option>
+                  <option value="beli-karya">Pembelian Karya</option>
+                  <option value="relawan">Menjadi Relawan</option>
+                  <option value="kemitraan">Kemitraan</option>
+                  <option value="kunjungan">Kunjungan</option>
+                  <option value="lainnya">Lainnya</option>
+                </select>
+              </div>
+              <p class="contact-form-guidance" id="contact-form-guidance" aria-live="polite">Pilih keperluan untuk melihat informasi lebih lanjut.</p>
+              <div class="form-group">
+                <label for="pesan">Pesan <span aria-hidden="true" class="inline-style-068">*</span></label>
+                <textarea id="pesan" name="pesan" class="form-control inline-style-069" placeholder="Tuliskan pesan Anda di sini..." required maxlength="5000" rows="5"></textarea>
+              </div>
+              <p class="contact-form-status" id="contact-form-status" role="status" aria-live="polite"></p>
+              <button type="submit" class="btn btn-primary inline-style-070">
+                Kirim Pesan
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </button>
+            </form>
+          </div>
+
+          <!-- MAP SIDE (RIGHT) -->
+          <div class="contact-map-wrap fade-in">
+            <h2 class="inline-style-029">Lokasi Kami</h2>
+            <p class="inline-style-071">Kunjungi kantor dan pusat pelayanan RBM Toraja di Tangmentoe, Toraja Utara.</p>
+
+            <div class="map-embed-shell inline-style-072">
+              <iframe
+                src="https://www.google.com/maps?q=RBM%40-3.0057013%2C119.8831552&z=17&output=embed"
+                title="Lokasi RBM Toraja di Google Maps"
+                width="100%"
+                height="450"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowfullscreen
+                aria-label="Peta lokasi RBM Toraja di Google Maps"
+                class="inline-style-073"></iframe>
+            </div>
+
+            <div class="map-embed-action inline-style-074">
+              <span class="inline-style-075">Tangmentoe, Toraja Utara · Dekat ITGT</span>
+              <a href="https://maps.app.goo.gl/b2teKonYzrryp9U68" target="_blank" rel="noopener noreferrer" class="btn btn-secondary inline-style-076">
+                Buka di Google Maps
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTACT DETAILS & SOCIAL STRIP -->
+        <div class="inline-style-077">
+          <h3 class="inline-style-029">Informasi Kontak</h3>
+          <p class="inline-style-078">Hubungi kami melalui salah satu saluran berikut.</p>
+
+          <div class="contact-cards-grid">
+            <div class="contact-card">
+              <div class="contact-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+              <div><h4>Alamat</h4><p>Tangmentoe, Toraja Utara<br><span class="inline-style-079">Dekat Institut Teologi Gereja Toraja</span></p></div>
+            </div>
+            <div class="contact-card">
+              <div class="contact-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012.18 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.15a16 16 0 006.29 6.29l1.51-1.52a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+              <div><h4>Telepon / WhatsApp</h4><p><a href="https://wa.me/6281343604500">+6281343604500</a></p></div>
+            </div>
+            <div class="contact-card">
+              <div class="contact-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><h4>Email</h4><p><a href="mailto:rbmtoraja@gmail.com">rbmtoraja@gmail.com</a></p></div>
+            </div>
+            <div class="contact-card">
+              <div class="contact-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+              <div><h4>Jam Operasional</h4><p>Senin–Jumat, pukul 07.00–12.00 WITA</p></div>
+            </div>
+          </div>
+
+          <!-- Social media box -->
+          <div class="inline-style-080">
+            <h4 class="inline-style-048">Media Sosial</h4>
+            <div class="inline-style-081">
+              <a href="https://www.instagram.com/rbmtangmentoe?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" aria-label="Instagram RBM Toraja @rbmtangmentoe" class="inline-style-082">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                Instagram: @rbmtangmentoe
+              </a>
+              <a href="https://www.facebook.com/share/19Uy7bSDYX/" target="_blank" rel="noopener noreferrer" aria-label="Facebook RBM Toraja" class="inline-style-082">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" aria-hidden="true"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+                Facebook: RBM Toraja
+              </a>
+              <a href="https://www.youtube.com/channel/UCBPxvwjtFAagBZpKPFLEupg" target="_blank" rel="noopener noreferrer" aria-label="YouTube Channel RBM Toraja" class="inline-style-082">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.41 19.1C5.12 19.56 12 19.56 12 19.56s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95 29 29 0 00.46-5.33 29 29 0 00-.46-5.34z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+                YouTube: RBM Toraja
+              </a>
+              <a href="https://www.linkedin.com/in/rehabilitasi-bersumb-masyarakat-345824104/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn RBM Toraja" class="inline-style-082">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.11 1 2.48 1 4.98 2.12 4.98 3.5zM.5 8h4V23h-4V8zm7 0h3.83v2.05h.06C11.92 8.87 13.3 7.7 15.38 7.7 19.5 7.7 20.25 10.4 20.25 13.9V23h-4v-8.07c0-1.93-.04-4.41-2.69-4.41-2.7 0-3.11 2.1-3.11 4.27V23h-4V8z" transform="translate(2)"/></svg>
+                LinkedIn: RBM Toraja
+              </a>
+            </div>
+          </div>
+
+          <div class="inline-style-043">
+            <h3>Mitra RBM Toraja</h3>
+            <div id="mitra-component" class="contact-partners"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section section--warm" aria-labelledby="faq-kontak-heading">
+      <div class="container inline-style-083">
+        <h2 id="faq-kontak-heading" class="inline-style-029">Pertanyaan Umum</h2>
+        <p class="inline-style-025">Informasi yang sering ditanyakan kepada RBM Toraja.</p>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-trigger" type="button" aria-expanded="false" aria-controls="faq-ans-kontak-1">
+              Berapa lama waktu respons RBM setelah mengirim pesan?
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-body" id="faq-ans-kontak-1" hidden>
+              <p>[DATA PERLU DIKONFIRMASI RBM] — Kami berusaha merespons setiap pesan secepatnya pada hari kerja.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-trigger" type="button" aria-expanded="false" aria-controls="faq-ans-kontak-2">
+              Bagaimana cara mengunjungi RBM Toraja?
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-body" id="faq-ans-kontak-2" hidden>
+              <p>Kunjungan dapat diatur melalui penghubungan terlebih dahulu. Silakan kirim pesan atau hubungi kami untuk menjadwalkan kunjungan. [DATA PERLU DIKONFIRMASI RBM]</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-trigger" type="button" aria-expanded="false" aria-controls="faq-ans-kontak-3">
+              Apakah RBM menerima kunjungan dari luar Toraja?
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="faq-body" id="faq-ans-kontak-3" hidden>
+              <p>Ya, RBM Toraja terbuka untuk kunjungan dari berbagai pihak yang ingin belajar, berkolaborasi, atau memberikan dukungan. Hubungi kami untuk informasi lebih lanjut.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="../data/rbm-data.js"></script>
+  <script src="../js/components.js"></script>
+  <script src="../script.js"></script>
+</body>
+</html>
+
