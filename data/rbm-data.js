@@ -453,6 +453,57 @@ const RBM = {
       image:         'rbm02',
       imagePos:      'center 20%',
     },
+    {
+      id:            's08',
+      title:         'Pendampingan Pendidikan untuk Kesempatan Belajar yang Setara',
+      category:      'pendidikan',
+      categoryLabel: 'Pendidikan',
+      detailPage:   'cerita-pendidikan-kesempatan-belajar-setara.html',
+      date:         'Oktober 2026',
+      dateTime:     '2026-10-08',
+      excerpt:      'Pendampingan pendidikan membantu penyandang disabilitas belajar sesuai potensi, kebutuhan, dan ritme mereka dalam lingkungan yang inklusif.',
+      body: [
+        'Pendidikan inklusif membuka kesempatan bagi setiap anak untuk belajar, bertumbuh, dan berpartisipasi sesuai potensi yang dimilikinya. RBM Toraja menghadirkan pendampingan yang memperhatikan kebutuhan setiap peserta.',
+        'Dengan dukungan pendamping dan keluarga, proses belajar dapat berlangsung lebih aman, terarah, dan menyenangkan. Setiap kemajuan, sekecil apa pun, menjadi bagian penting dari perjalanan menuju kemandirian.',
+      ],
+      quote:        'Kesempatan belajar yang setara memberi ruang bagi setiap anak untuk berkembang dengan caranya sendiri.',
+      image:        'rbm01',
+      imagePos:     'center 50%',
+    },
+    {
+      id:            's09',
+      title:         'Menguatkan Keterampilan dan Kemandirian Bersama RBM',
+      category:      'pemberdayaan',
+      categoryLabel: 'Pemberdayaan',
+      detailPage:   'cerita-pemberdayaan-kemandirian-rbm.html',
+      date:         'Oktober 2026',
+      dateTime:     '2026-10-15',
+      excerpt:      'Kegiatan pengembangan keterampilan membantu penyandang disabilitas membangun kepercayaan diri, kemandirian, dan ruang partisipasi di masyarakat.',
+      body: [
+        'Pengembangan keterampilan memberi kesempatan bagi penyandang disabilitas untuk mengenali kekuatan, mencoba hal baru, dan menghasilkan karya yang bermakna. Prosesnya dibangun melalui latihan yang konsisten dan pendampingan yang menghargai setiap kemampuan.',
+        'Kemandirian tumbuh ketika seseorang diberi kesempatan untuk mengambil bagian, membuat pilihan, dan melihat nilai dari kontribusinya. RBM Toraja terus mendorong ruang belajar yang mendukung proses tersebut.',
+      ],
+      quote:        'Keterampilan tumbuh melalui kesempatan, dukungan, dan kepercayaan untuk terus mencoba.',
+      image:        'rbm03',
+      imagePos:     'center',
+    },
+    {
+      id:            's10',
+      title:         'Kolaborasi dan Kepedulian untuk Layanan Inklusif di Toraja',
+      category:      'kemitraan',
+      categoryLabel: 'Kemitraan',
+      detailPage:   'cerita-kolaborasi-kepedulian-layanan-inklusif.html',
+      date:         'Oktober 2026',
+      dateTime:     '2026-10-20',
+      excerpt:      'Kerja sama dengan komunitas dan mitra memperkuat kualitas layanan inklusif serta memperluas dukungan bagi keluarga di Toraja.',
+      body: [
+        'Layanan inklusif menjadi lebih kuat ketika komunitas, keluarga, dan mitra saling berbagi kepedulian serta sumber daya. Kolaborasi membantu RBM Toraja memahami kebutuhan di lapangan dan menghadirkan dukungan yang lebih tepat.',
+        'Melalui komunikasi terbuka dan tujuan bersama, setiap pihak dapat mengambil peran dalam membangun lingkungan yang lebih ramah, setara, dan mudah diakses bagi penyandang disabilitas.',
+      ],
+      quote:        'Kepedulian yang dikerjakan bersama dapat memperluas dampak layanan inklusif.',
+      image:        'rbm05',
+      imagePos:     'center 30%',
+    },
   ],
 
   products: [
@@ -673,4 +724,3 @@ const RBM = {
     { title: 'RS Elim',              type: 'Mitra',     url: '../pages/tentang-rbm.html',                  keywords: ['rs elim','rumah sakit','elim','mitra','kesehatan'] },
   ],
 };
-

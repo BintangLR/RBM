@@ -4,8 +4,11 @@
   document.addEventListener('DOMContentLoaded', function () {
     const stories = typeof RBM !== 'undefined' && Array.isArray(RBM.stories) ? RBM.stories : [];
     const list = document.getElementById('cerita-list');
+    const pagination = document.getElementById('cerita-pagination');
     const detailPage = document.querySelector('[data-story-id]');
     const categoryPills = list ? document.querySelectorAll('#cerita-cat-nav .cat-pill') : [];
+    const pageSize = 9;
+    let currentPage = 1;
 
     function escapeHtml(value) {
       return String(value == null ? '' : value).replace(/[&<>"']/g, function (character) {
@@ -136,6 +139,42 @@
       return `<h2>Ruang untuk berbagi cerita</h2>${paragraphs.map(paragraph => `<p>${escapeHtml(paragraph)}</p>`).join('')}`;
     }
 
+    function renderPagination(totalPages) {
+      if (!pagination) return;
+      if (totalPages <= 1) {
+        pagination.hidden = true;
+        pagination.innerHTML = '';
+        return;
+      }
+
+      pagination.hidden = false;
+      pagination.innerHTML = `
+        <button class="cerita-pagination__button cerita-pagination__button--prev" type="button" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>
+          <span aria-hidden="true">←</span> Sebelumnya
+        </button>
+        <div class="cerita-pagination__pages">
+          ${Array.from({ length: totalPages }, (_, index) => {
+            const page = index + 1;
+            const active = page === currentPage;
+            return `<button class="cerita-pagination__button${active ? ' is-active' : ''}" type="button" data-page="${page}"${active ? ' aria-current="page"' : ''}>${page}</button>`;
+          }).join('')}
+        </div>
+        <button class="cerita-pagination__button cerita-pagination__button--next" type="button" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>
+          Berikutnya <span aria-hidden="true">→</span>
+        </button>
+      `;
+
+      pagination.querySelectorAll('[data-page]').forEach(button => {
+        button.addEventListener('click', function () {
+          const page = Number(this.dataset.page);
+          if (page === currentPage || page < 1 || page > totalPages) return;
+          currentPage = page;
+          renderList();
+          list.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    }
+
     function renderList() {
       const requested = new URLSearchParams(window.location.search).get('cat') || 'all';
       const category = Array.from(categoryPills).some(pill => pill.dataset.cat === requested) ? requested : 'all';
@@ -149,10 +188,19 @@
 
       if (!filtered.length) {
         list.innerHTML = '<div class="cerita-empty"><p>Belum ada artikel di kategori ini.</p></div>';
+        if (pagination) {
+          pagination.hidden = true;
+          pagination.innerHTML = '';
+        }
         return;
       }
 
-      list.innerHTML = filtered.map(story => `
+      const totalPages = Math.ceil(filtered.length / pageSize);
+      currentPage = Math.min(currentPage, totalPages);
+      const pageStart = (currentPage - 1) * pageSize;
+      const pageStories = filtered.slice(pageStart, pageStart + pageSize);
+
+      list.innerHTML = pageStories.map(story => `
         <a class="story-list-card" href="${escapeHtml(story.detailPage)}">
           <img class="story-list-card__image" src="${escapeHtml(imageFor(story))}" alt="${escapeHtml(story.title)}" style="object-position:${escapeHtml(story.imagePos || 'center')}" loading="lazy">
           <div class="story-list-card__body">
@@ -166,7 +214,7 @@
           </div>
         </a>
       `).join('');
-
+      renderPagination(totalPages);
     }
 
     if (list) {
@@ -175,13 +223,17 @@
         if (this.dataset.cat === 'all') url.searchParams.delete('cat');
         else url.searchParams.set('cat', this.dataset.cat);
         window.history.pushState({}, '', url);
+        currentPage = 1;
         renderList();
       }));
     }
 
     if (list) {
       renderList();
-      window.addEventListener('popstate', renderList);
+      window.addEventListener('popstate', function () {
+        currentPage = 1;
+        renderList();
+      });
       return;
     }
 

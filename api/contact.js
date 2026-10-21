@@ -66,11 +66,11 @@ module.exports = async function contactHandler(req, res) {
 
   const apiKey = process.env.RESEND_API_KEY?.trim();
   const fromEmail = process.env.RESEND_FROM_EMAIL?.trim();
-  const recipientEmail = process.env.CONTACT_TO_EMAIL?.trim() || 'bintanglande321@gmail.com';
-  if (!apiKey || !fromEmail || /[\r\n]/.test(fromEmail)) {
+  const recipientEmail = process.env.CONTACT_TO_EMAIL?.trim() || 'rbmtoraja@gmail.com';
+  if (!apiKey || !fromEmail || /[\r\n]/.test(fromEmail) || !recipientEmail || /[\r\n]/.test(recipientEmail)) {
     console.error('Contact email is unavailable: RESEND_API_KEY and RESEND_FROM_EMAIL must be configured.');
     return sendJson(res, 503, {
-      error: 'Layanan email belum siap. Pengelola perlu mengatur RESEND_API_KEY dan RESEND_FROM_EMAIL di Vercel.'
+      error: 'Layanan email belum siap. Pengelola perlu mengatur RESEND_API_KEY dan RESEND_FROM_EMAIL di environment backend.'
     });
   }
 
