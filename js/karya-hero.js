@@ -16,6 +16,10 @@
   let activeIndex = Math.max(0, slides.findIndex(slide => slide.classList.contains('is-active')));
   let timer = null;
   let isPaused = false;
+  let dragStartX = null;
+  let dragged = false;
+  let suppressClick = false;
+  const swipeThreshold = 42;
 
   const indicatorButtons = slides.map((slide, index) => {
     const button = document.createElement('button');
@@ -82,6 +86,46 @@
     startTimer();
   });
   reducedMotion.addEventListener('change', startTimer);
+
+  carousel.addEventListener('pointerdown', event => {
+    if (event.target.closest('.karya-hero__indicator')) return;
+    dragStartX = event.clientX;
+    dragged = false;
+    suppressClick = false;
+    carousel.classList.add('is-dragging');
+    stopTimer();
+    carousel.setPointerCapture?.(event.pointerId);
+  });
+
+  carousel.addEventListener('pointermove', event => {
+    if (dragStartX === null) return;
+    if (Math.abs(event.clientX - dragStartX) > 8) dragged = true;
+  });
+
+  carousel.addEventListener('pointerup', event => {
+    if (dragStartX === null) return;
+    const distance = event.clientX - dragStartX;
+    const movedSlide = Math.abs(distance) >= swipeThreshold;
+    carousel.classList.remove('is-dragging');
+    dragStartX = null;
+    suppressClick = dragged;
+    if (movedSlide) showSlide(activeIndex + (distance < 0 ? 1 : -1), true);
+    else startTimer();
+  });
+
+  carousel.addEventListener('pointercancel', () => {
+    dragStartX = null;
+    dragged = false;
+    carousel.classList.remove('is-dragging');
+    startTimer();
+  });
+
+  carousel.addEventListener('click', event => {
+    if (!suppressClick) return;
+    event.preventDefault();
+    event.stopPropagation();
+    suppressClick = false;
+  }, true);
 
   showSlide(activeIndex, false);
   startTimer();

@@ -111,7 +111,7 @@ test('sends the selected request to RBM Toraja and uses the visitor email for re
   assert.equal(request.url, 'https://api.resend.com/emails');
   assert.equal(request.options.headers.Authorization, 'Bearer test-key');
   assert.equal(request.payload.from, 'onboarding@resend.dev');
-  assert.deepEqual(request.payload.to, ['bintanglande321@gmail.com']);
+  assert.deepEqual(request.payload.to, ['rbmtoraja@gmail.com']);
   assert.equal(request.payload.reply_to, 'sari@example.com');
   assert.match(request.payload.subject, /Pengajuan kemitraan.*Diskusi kerja sama/);
   assert.match(request.payload.text, /Subjek: Diskusi kerja sama/);

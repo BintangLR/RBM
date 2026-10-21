@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded', function () {
       'Layanan email belum siap. Silakan coba kembali nanti atau hubungi RBM Toraja melalui email.': 'The email service is not ready yet. Please try again later or contact RBM Toraja by email.',
       'Subjek wajib diisi dan maksimal 160 karakter.': 'A subject is required and must be no longer than 160 characters.',
       'Pengiriman email gagal. Silakan coba lagi beberapa saat lagi atau hubungi RBM Toraja melalui email.': 'Email submission failed. Please try again shortly or contact RBM Toraja by email.',
-      'Layanan email belum siap. Pengelola perlu mengatur RESEND_API_KEY dan RESEND_FROM_EMAIL di Vercel.': 'The email service is not ready. The site administrator must configure RESEND_API_KEY and RESEND_FROM_EMAIL in Vercel.',
+      'Layanan email belum siap. Pengelola perlu mengatur RESEND_API_KEY dan RESEND_FROM_EMAIL di environment backend.': 'The email service is not ready. The site administrator must configure RESEND_API_KEY and RESEND_FROM_EMAIL in the backend environment.',
       'Pengiriman email gagal karena layanan email tidak dapat dijangkau. Silakan coba kembali nanti.': 'Email submission failed because the email service could not be reached. Please try again later.',
       'Layanan email menolak pengiriman. Pengelola perlu memeriksa konfigurasi Resend.': 'The email service rejected the request. The site administrator must check the Resend configuration.'
     };
@@ -344,25 +344,116 @@ document.addEventListener('DOMContentLoaded', function () {
     const dots = heroSlideshow.querySelectorAll('.hero-dot');
     let currentSlide = 0;
     let slideTimer = null;
+    let transitionRequest = 0;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const homeHero = heroSlideshow.closest('.home-hero');
+    let heroInView = false;
+    let heroIntroComplete = false;
+
+    if (homeHero) {
+      if (reducedMotion) {
+        homeHero.classList.add('hero-motion-complete');
+        heroInView = true;
+      } else {
+        homeHero.classList.add('hero-motion-pending');
+        const heroObserver = new IntersectionObserver(entries => {
+          const entry = entries[0];
+          if (!entry?.isIntersecting) return;
+
+          heroInView = true;
+          const completeHeroIntro = () => {
+            if (heroIntroComplete) return;
+            heroIntroComplete = true;
+            homeHero.classList.remove('hero-motion-active');
+            homeHero.classList.add('hero-motion-complete');
+          };
+
+          heroSlideshow.addEventListener('animationend', event => {
+            if (event.animationName === 'hero-photo-in') completeHeroIntro();
+          }, { once: true });
+
+          homeHero.classList.remove('hero-motion-pending');
+          homeHero.classList.add('hero-motion-active');
+          heroObserver.unobserve(homeHero);
+          heroObserver.disconnect();
+          // Keep the intro state alive until the SVG trace has completed.
+          window.setTimeout(completeHeroIntro, 2800);
+        }, { threshold: 0.25 });
+
+        heroObserver.observe(homeHero);
+      }
+    }
+
+    // Shift only the decorative background by a few pixels during scroll.
+    if (homeHero && !reducedMotion) {
+      let parallaxFrame = null;
+
+      const updateHeroParallax = () => {
+        parallaxFrame = null;
+        if (!heroInView) return;
+        const bounds = homeHero.getBoundingClientRect();
+        const progress = (window.innerHeight - bounds.top) / (window.innerHeight + bounds.height);
+        const shift = Math.max(-6, Math.min(6, (progress - 0.5) * -8));
+        homeHero.style.setProperty('--hero-bg-shift', `${shift.toFixed(2)}px`);
+      };
+
+      const requestHeroParallax = () => {
+        if (parallaxFrame === null) parallaxFrame = window.requestAnimationFrame(updateHeroParallax);
+      };
+
+      window.addEventListener('scroll', requestHeroParallax, { passive: true });
+      window.addEventListener('resize', requestHeroParallax);
+      requestHeroParallax();
+    }
+
+    // Warm the next images before they become visible, so the crossfade never
+    // reveals an unloaded frame. The existing image elements remain in place.
+    function preloadSlide(index) {
+      const image = slides[index]?.querySelector('img');
+      if (!image || image.dataset.heroReady === 'true') return Promise.resolve();
+
+      image.dataset.heroReady = 'loading';
+      image.loading = 'eager';
+      const ready = image.complete
+        ? Promise.resolve()
+        : new Promise(resolve => {
+          image.addEventListener('load', resolve, { once: true });
+          image.addEventListener('error', resolve, { once: true });
+        });
+
+      return ready.then(() => {
+        const decoded = typeof image.decode === 'function' ? image.decode() : Promise.resolve();
+        return decoded.catch(() => undefined).then(() => {
+          image.dataset.heroReady = 'true';
+        });
+      });
+    }
 
     function goToSlide(index) {
       if (index === currentSlide || !slides.length) return;
-      slides[currentSlide].classList.remove('is-active');
-      slides[currentSlide].setAttribute('aria-hidden', 'true');
-      if (dots[currentSlide]) {
-        dots[currentSlide].classList.remove('is-active');
-        dots[currentSlide].setAttribute('aria-selected', 'false');
-      }
+      const nextSlide = (index + slides.length) % slides.length;
+      const request = ++transitionRequest;
 
-      currentSlide = (index + slides.length) % slides.length;
+      preloadSlide(nextSlide).then(() => {
+        if (request !== transitionRequest) return;
 
-      slides[currentSlide].classList.add('is-active');
-      slides[currentSlide].setAttribute('aria-hidden', 'false');
-      if (dots[currentSlide]) {
-        dots[currentSlide].classList.add('is-active');
-        dots[currentSlide].setAttribute('aria-selected', 'true');
-      }
+        slides[currentSlide].classList.remove('is-active');
+        slides[currentSlide].setAttribute('aria-hidden', 'true');
+        if (dots[currentSlide]) {
+          dots[currentSlide].classList.remove('is-active');
+          dots[currentSlide].setAttribute('aria-selected', 'false');
+        }
+
+        currentSlide = nextSlide;
+        slides[currentSlide].classList.add('is-active');
+        slides[currentSlide].setAttribute('aria-hidden', 'false');
+        if (dots[currentSlide]) {
+          dots[currentSlide].classList.add('is-active');
+          dots[currentSlide].setAttribute('aria-selected', 'true');
+        }
+
+        preloadSlide((currentSlide + 1) % slides.length);
+      });
     }
 
     function startTimer() {
@@ -370,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function () {
       stopTimer();
       slideTimer = setInterval(() => {
         goToSlide(currentSlide + 1);
-      }, 5000);
+      }, 6000);
     }
 
     function stopTimer() {
@@ -386,6 +477,9 @@ document.addEventListener('DOMContentLoaded', function () {
         startTimer();
       });
     });
+
+    preloadSlide(0);
+    preloadSlide(1 % slides.length);
 
     heroSlideshow.addEventListener('mouseenter', stopTimer);
     heroSlideshow.addEventListener('mouseleave', startTimer);

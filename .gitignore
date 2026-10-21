@@ -3,3 +3,8 @@
 
 # Local source image collection, if present in this project.
 /Foto/
+
+# Local environment files (never commit API keys).
+.env
+.env.*
+!.env.example
